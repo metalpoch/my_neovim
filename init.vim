@@ -51,7 +51,7 @@ Plug 'peitalin/vim-jsx-typescript'
 Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
 Plug 'jparise/vim-graphql'
 
-"Plug 'ryanoasis/vim-devicons' " Icons over NerdTree
+Plug 'ryanoasis/vim-devicons' " Icons over NerdTree
 Plug 'easymotion/vim-easymotion' " Move between words (space+m)
 Plug 'christoomey/vim-tmux-navigator' " Move between words (ctrl+{h,j,k,l})
 Plug 'Yggdroot/indentLine' " Identline
