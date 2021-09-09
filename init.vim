@@ -27,56 +27,7 @@ function! OpenTerminal()
 endfunction
 nnoremap <c-n> :call OpenTerminal()<CR>
 
-"############## INSTALL PLUGIN ###############"
-call plug#begin('~/.vim/plugged')
-" ----- IDE:
-Plug 'neoclide/coc.nvim', {'branch': 'master', 'do': 'yarn install --frozen-lockfile'} " Conquer Of Completion
-Plug 'ryanoasis/vim-devicons' " VIM-DEVICONS icons for NERDTree
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'easymotion/vim-easymotion' " Move between words (space+m)
-Plug 'christoomey/vim-tmux-navigator' " Move between words (ctrl+{h,j,k,l})
-Plug 'Yggdroot/indentLine' " Identline
-Plug 'scrooloose/nerdtree' " Menu dir (<F2>)
-Plug 'jiangmiao/auto-pairs' " Automatic quote and bracket completion
-Plug 'scrooloose/nerdcommenter' " Commentary
-Plug 'mattn/emmet-vim' " Auto close tags html and jsx (,+,)
-
-"" -- Python
-Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
-
-" -- Javascript
-Plug 'yuezk/vim-js' " Syntax highlighting for js
-Plug 'maxmellon/vim-jsx-pretty' " Syntax highlighting for jsx
-Plug 'HerringtonDarkholme/yats.vim' " Syntax highlighting for ts
-
-" -- Flutter
-"Plug 'dart-lang/dart-vim-plugin'
-
-"Prettier
-Plug 'prettier/vim-prettier', {
-  \ 'do': 'yarn install',
-  \ 'for': ['javascript', 'typescript', 'css', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html', 'htmldjango'] }
-
-" -- Rust
-Plug 'rust-lang/rust.vim'
-
-" -- Style
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'joshdick/onedark.vim'
-Plug 'dracula/vim'
-
-call plug#end()
-
-" ----- CONFIG
-" -- Style
-set termguicolors  " Activa true colors en la terminal
-colorscheme dracula
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#fnamemod = ':t'
-let g:airline_powerline_fonts = 1
-
-" -- MAP KEY
+" MAP KEY
 let mapleader=" "
 " Save
 nmap <leader>w :w<CR>
@@ -85,35 +36,87 @@ nmap <leader>q :q<CR>
 " Clean mark from previus search
 nnoremap <silent> <leader>z :nohlsearch<CR>
 
-" -- Emmet
+"############## INSTALL PLUGIN ###############"
+call plug#begin('~/.vim/plugged')
+
+" Theme
+Plug 'ayu-theme/ayu-vim'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+
+" React
+Plug 'pangloss/vim-javascript'
+Plug 'leafgarland/typescript-vim'
+Plug 'peitalin/vim-jsx-typescript'
+Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
+Plug 'jparise/vim-graphql'
+
+"Plug 'ryanoasis/vim-devicons' " Icons over NerdTree
+Plug 'easymotion/vim-easymotion' " Move between words (space+m)
+Plug 'christoomey/vim-tmux-navigator' " Move between words (ctrl+{h,j,k,l})
+Plug 'Yggdroot/indentLine' " Identline
+Plug 'scrooloose/nerdtree' " Menu dir (<F2>)
+Plug 'jiangmiao/auto-pairs' " Automatic quote and bracket completion
+Plug 'scrooloose/nerdcommenter' " Commentary
+Plug 'mattn/emmet-vim' " Auto close tags html and jsx (,+,)
+
+Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
+
+" Prettier
+Plug 'prettier/vim-prettier', {
+  \ 'do': 'yarn install',
+  \ 'for': ['htmldjango'] }
+
+" Coc
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+let g:coc_global_extensions = [
+  \ 'coc-tsserver',
+  \ 'coc-prettier',
+  \ 'coc-eslint',
+  \ 'coc-git',
+  \ 'coc-json',
+  \ 'coc-python',
+  \ 'coc-sh',
+  \ ]
+
+call plug#end()
+
+" THEME
+set termguicolors     " enable true colors support
+let ayucolor="dark"
+colorscheme ayu
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#fnamemod = ':t'
+let g:airline_powerline_fonts = 1
+
+" Prettier
+let g:prettier#config#use_tabs = 'false'
+autocmd BufEnter *.{js,jsx,ts,tsx} :syntax sync fromstart
+autocmd BufLeave *.{js,jsx,ts,tsx} :syntax sync clear
+
+" Emmet
 let g:user_emmet_install_global = 0
 autocmd FileType html,css,js,hbs,ejs,htmldjango EmmetInstall
 let g:user_emmet_leader_key=','
 
-" -- Easymotion
-nmap <leader>s <Plug>(easymotion-s2)
+" Easymotion
+nmap <leader>m <Plug>(easymotion-s2)
 
-" -- Nerdtree
+" Nerdtree
 let g:NERDTreeChDirMode = 2
 nmap <F2> :NERDTreeFind<CR>
 let NERDTreeQuitOnOpen=1
 
-" -- Rust
-let g:rust_clip_command = 'xclip -selection clipboard'
-
-" -- NerdCommenter
+" NerdCommenter
 let g:NERDCompactSexyComs = 1
 let g:NERDDefaultAlign = 'left'
 let g:NERDTrimTrailingWhitespace = 1
 
-" -- Identline
+" Identline
 let g:indentLine_fileTypeExclude = ['text', 'help', 'terminal']
 let g:indentLine_bufNameExclude = ['NERD_tree.*', 'term:.*']
 
-"-- Prettier
-let g:prettier#config#use_tabs = 'false'
-
-" -- COC
+" Coc
 set encoding=utf-8
 set hidden
 set nobackup
@@ -122,76 +125,24 @@ set cmdheight=2 " Give more space for displaying messages.
 set updatetime=300
 set shortmess+=c
 
-" plugin coc
-let g:coc_global_extensions = ['coc-json', 'coc-tsserver', 'coc-git', 'coc-prettier', 'coc-python', 'coc-sh', 'coc-flutter']
-
-    " Format code
-nmap <leader>f :CocCommand prettier.formatFile<CR>
-    " Apply AutoFix to problem on the current line.
-nmap <leader>qf  <Plug>(coc-fix-current)
-
-" Always show the signcolumn, otherwise it would shift the text each time
-" diagnostics appear/become resolved.
-if has("patch-8.1.1564")
-  " Recently vim can merge signcolumn and number column into one
-  set signcolumn=number
-else
-  set signcolumn=yes
-endif
-
-" Use tab for trigger completion with characters ahead and navigate.
-" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
-" other plugin before putting this into your config.
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
-
-" Use <c-space> to trigger completion.
-if has('nvim')
-  inoremap <silent><expr> <c-space> coc#refresh()
-else
-  inoremap <silent><expr> <c-@> coc#refresh()
-endif
-
-" Make <CR> auto-select the first completion item and notify coc.nvim to
-" format on enter, <cr> could be remapped by other vim plugin
-inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
-                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+" GoTo code navigation
+nnoremap <silent> K :call CocAction('doHover')<CR>
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gr <Plug>(coc-references)
 
 " Use `[g` and `]g` to navigate diagnostics
 " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
 nmap <silent> ]g <Plug>(coc-diagnostic-next)
-
-" GoTo code navigation.
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
-
-" Use K to show documentation in preview window.
-nnoremap <silent> K :call <SID>show_documentation()<CR>
-
-function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  elseif (coc#rpc#ready())
-    call CocActionAsync('doHover')
-  else
-    execute '!' . &keywordprg . " " . expand('<cword>')
-  endif
-endfunction
-
-" Highlight the symbol and its references when holding the cursor.
-autocmd CursorHold * silent call CocActionAsync('highlight')
-
-" Symbol renaming.
+" Symbol renaming
 nmap <leader>rn <Plug>(coc-rename)
 
+" CocAction
+nmap <leader>ca <Plug>(coc-codeaction)
+
+" Coc-Prettier
+nmap <leader>f :CocCommand prettier.formatFile<CR>
+
+" Coc-Python exec in terminal
+nmap <leader>pr :CocCommand python.execInTerminal<CR>
